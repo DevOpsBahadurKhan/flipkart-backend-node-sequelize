@@ -1,10 +1,7 @@
-FROM node:16.20.2
-
-MAINTAINER info.bahadur6350@gmail.com
-
-# Copy package.json and package-lock.json
+FROM node:16
+WORKDIR /usr/src/app
 COPY package*.json ./
-
 RUN npm install
-
+COPY . .
+EXPOSE $PORT
 CMD ["npm", "start"]
