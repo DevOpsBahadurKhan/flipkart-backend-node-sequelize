@@ -4,18 +4,18 @@ require('dotenv').config(); // Load environment variables
 
 // Database connection details
 const dbConfig = {
-  username: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_USERNAME : 
-             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_USERNAME : 
-             process.env.DEV_DB_USERNAME,
-  password: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_PASSWORD : 
-             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_PASSWORD : 
-             process.env.DEV_DB_PASSWORD,
-  database: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_NAME : 
-             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_NAME : 
-             process.env.DEV_DB_NAME,
-  host: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_HOST : 
-             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_HOST : 
-             process.env.DEV_DB_HOST,
+  username: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_USERNAME :
+    process.env.NODE_ENV === 'test' ? process.env.TEST_DB_USERNAME :
+      process.env.DEV_DB_USERNAME,
+  password: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_PASSWORD :
+    process.env.NODE_ENV === 'test' ? process.env.TEST_DB_PASSWORD :
+      process.env.DEV_DB_PASSWORD,
+  database: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_NAME :
+    process.env.NODE_ENV === 'test' ? process.env.TEST_DB_NAME :
+      process.env.DEV_DB_NAME,
+  host: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_HOST :
+    process.env.NODE_ENV === 'test' ? process.env.TEST_DB_HOST :
+      process.env.DEV_DB_HOST,
   dialect: 'mysql', // Assuming the same dialect for all environments
 };
 
@@ -24,9 +24,13 @@ const dbConfig = {
   try {
     // Create a connection without a specific database
     const connection = await mysql.createConnection({
-      host: dbConfig.host,
-      user: dbConfig.username,
-      password: dbConfig.password,
+      // host: dbConfig.host,
+      // user: dbConfig.username,
+      // password: dbConfig.password,
+      username: process.env.PROD_DB_USERNAME,
+      password: process.env.PROD_DB_PASSWORD,
+      database: process.env.PROD_DB_NAME,
+      host: process.env.PROD_DB_HOST,
     });
 
     // Create the database if it doesn't exist
@@ -65,7 +69,7 @@ const sequelize = new Sequelize(
   } catch (error) {
     console.error("Error synchronizing database:", error);
   }
-})(); 
+})();
 
 // Export the Sequelize instance for use in other parts of your application
 module.exports = sequelize;
