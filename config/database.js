@@ -1,13 +1,23 @@
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
-const config = require('./config.json');
-
-// Determine the environment
-const env = process.env.NODE_ENV || 'dev';
+require('dotenv').config(); // Load environment variables
 
 // Database connection details
-const dbConfig = config[env];
-
+const dbConfig = {
+  username: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_USERNAME : 
+             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_USERNAME : 
+             process.env.DEV_DB_USERNAME,
+  password: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_PASSWORD : 
+             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_PASSWORD : 
+             process.env.DEV_DB_PASSWORD,
+  database: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_NAME : 
+             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_NAME : 
+             process.env.DEV_DB_NAME,
+  host: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_HOST : 
+             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_HOST : 
+             process.env.DEV_DB_HOST,
+  dialect: 'mysql', // Assuming the same dialect for all environments
+};
 
 // Create and check the database if it doesn't exist
 (async () => {
@@ -17,7 +27,6 @@ const dbConfig = config[env];
       host: dbConfig.host,
       user: dbConfig.username,
       password: dbConfig.password,
-      
     });
 
     // Create the database if it doesn't exist
