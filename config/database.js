@@ -24,9 +24,6 @@ const dbConfig = {
   try {
     // Create a connection without a specific database
     const connection = await mysql.createConnection({
-      // host: dbConfig.host,
-      // user: dbConfig.username,
-      // password: dbConfig.password,
       username: process.env.PROD_DB_USERNAME,
       password: process.env.PROD_DB_PASSWORD,
       database: process.env.PROD_DB_NAME,
