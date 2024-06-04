@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: E-commerce API
+  description: API for managing e-commerce operations
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+security:
+  - bearerAuth: []
+paths:
+  /auth/login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: ak@gmail.com
+                password:
+                  type: string
+                  example: aA@456
+      responses:
+        "200":
+          description: Successful login
+        "401":
+          description: Unauthorized
+
+  /auth/signUp:
+    post:
+      summary: User signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        "201":
+          description: User created
+        "400":
+          description: Bad request
+
+  /auth/me:
+    get:
+      summary: Get current user profile
+      responses:
+        "200":
+          description: Current user profile
+        "401":
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+
+  /auth/profileUpdate:
+    patch:
+      summary: Update profile
+      responses:
+        "200":
+          description: Current user profile
+        "401":
+          description: Unauthorized
+  /auth/deleteAccount:
+    delete:
+      summary: Delete profile
+      responses:
+        "200":
+          description: Current user profile
+        "401":
+          description: Unauthorized
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
