@@ -1,5 +1,5 @@
 {
-  "dev": {
+  "development": {
     "database": "dev_db",
     "username": "admin",
     "password": "admin",
@@ -13,11 +13,11 @@
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
-  "prod": {
+  "production": {
     "username": "admin",
     "password": "admin",
-    "database": "PRODUCTION_DB",
-    "host": "127.0.0.1",
+    "database": "prod_db",
+    "host": "mysql",
     "dialect": "mysql"
   }
 }

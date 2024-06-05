@@ -1,26 +1,6 @@
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
-require('dotenv').config(); // Load environment variables
-
-// Default to development environment if NODE_ENV is not set
-const environment = process.env.NODE_ENV
-
-// Database connection details
-const dbConfig = {
-  username: environment === 'production' ? process.env.PROD_DB_USERNAME : 
-             environment === 'test' ? process.env.TEST_DB_USERNAME : 
-             process.env.DEV_DB_USERNAME,
-  password: environment === 'production' ? process.env.PROD_DB_PASSWORD : 
-             environment === 'test' ? process.env.TEST_DB_PASSWORD : 
-             process.env.DEV_DB_PASSWORD,
-  database: environment === 'production' ? process.env.PROD_DB_NAME : 
-             environment === 'test' ? process.env.TEST_DB_NAME : 
-             process.env.DEV_DB_NAME,
-  host: environment === 'production' ? process.env.PROD_DB_HOST : 
-             environment === 'test' ? process.env.TEST_DB_HOST : 
-             process.env.DEV_DB_HOST,
-  dialect: 'mysql', // Assuming the same dialect for all environments
-};
+const dbConfig = require('./index'); // Import configuration based on NODE_ENV
 
 // Create and check the database if it doesn't exist
 (async () => {
@@ -49,14 +29,7 @@ const sequelize = new Sequelize(
   dbConfig.password,
   {
     host: dbConfig.host,
-    dialect: dbConfig.dialect,
-    logging: true,
-    pool: {
-      max: 120,
-      min: 0,
-      acquire: 30000,
-      idle: 10000,
-    },
+    dialect: dbConfig.dialect
   }
 );
 
@@ -68,7 +41,7 @@ const sequelize = new Sequelize(
   } catch (error) {
     console.error("Error synchronizing database:", error);
   }
-})(); 
+})();
 
 // Export the Sequelize instance for use in other parts of your application
 module.exports = sequelize;

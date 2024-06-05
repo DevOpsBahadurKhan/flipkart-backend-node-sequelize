@@ -22,11 +22,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: production
-      PROD_DB_USERNAME: admin
-      PROD_DB_PASSWORD: admin
-      PROD_DB_NAME: dev_db
-      PROD_DB_HOST: mysql
+      NODE_ENV: ${NODE_ENV}
+      PORT: 3000  # Replace with your desired port
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: mysql
     depends_on:
       - mysql
     networks:
