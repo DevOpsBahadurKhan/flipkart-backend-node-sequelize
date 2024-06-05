@@ -2,19 +2,22 @@ const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
 require('dotenv').config(); // Load environment variables
 
+// Default to development environment if NODE_ENV is not set
+const environment = process.env.NODE_ENV
+
 // Database connection details
 const dbConfig = {
-  username: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_USERNAME : 
-             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_USERNAME : 
+  username: environment === 'production' ? process.env.PROD_DB_USERNAME : 
+             environment === 'test' ? process.env.TEST_DB_USERNAME : 
              process.env.DEV_DB_USERNAME,
-  password: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_PASSWORD : 
-             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_PASSWORD : 
+  password: environment === 'production' ? process.env.PROD_DB_PASSWORD : 
+             environment === 'test' ? process.env.TEST_DB_PASSWORD : 
              process.env.DEV_DB_PASSWORD,
-  database: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_NAME : 
-             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_NAME : 
+  database: environment === 'production' ? process.env.PROD_DB_NAME : 
+             environment === 'test' ? process.env.TEST_DB_NAME : 
              process.env.DEV_DB_NAME,
-  host: process.env.NODE_ENV === 'production' ? process.env.PROD_DB_HOST : 
-             process.env.NODE_ENV === 'test' ? process.env.TEST_DB_HOST : 
+  host: environment === 'production' ? process.env.PROD_DB_HOST : 
+             environment === 'test' ? process.env.TEST_DB_HOST : 
              process.env.DEV_DB_HOST,
   dialect: 'mysql', // Assuming the same dialect for all environments
 };
