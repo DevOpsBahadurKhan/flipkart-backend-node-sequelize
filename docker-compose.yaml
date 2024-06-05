@@ -17,7 +17,9 @@ services:
       - my-network
 
   flipkart:
-    image: flipkart:latest
+    build:
+      context: .
+      dockerfile: Dockerfile  # Specify the Dockerfile for the flipkart service
     container_name: flipkart
     ports:
       - "3000:3000"
