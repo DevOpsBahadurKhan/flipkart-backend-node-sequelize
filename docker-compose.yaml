@@ -17,6 +17,7 @@ services:
       - my-network
 
   flipkart:
+    image: flipkart
     build:
       context: .
       dockerfile: Dockerfile  # Specify the Dockerfile for the flipkart service
