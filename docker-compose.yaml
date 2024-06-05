@@ -20,6 +20,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile  # Specify the Dockerfile for the flipkart service
+      image: flipkart:latest  # Specify the image name for the flipkart service
     container_name: flipkart
     ports:
       - "3000:3000"
