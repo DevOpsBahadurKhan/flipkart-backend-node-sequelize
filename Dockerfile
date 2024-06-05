@@ -5,4 +5,4 @@ RUN npm install
 COPY . /usr/src/app
 EXPOSE $PORT
 ENV NODE_ENV=production
-CMD ["node", "start"]
+CMD ["node", "index.js"]
