@@ -4,5 +4,4 @@ COPY package*.json ./
 RUN npm install
 COPY . /usr/src/app
 EXPOSE $PORT
-ENV NODE_ENV=production
 CMD ["node", "index.js"]
