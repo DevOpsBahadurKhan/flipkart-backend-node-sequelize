@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  db:
+  mysql:
     image: mysql:latest
     container_name: mysql
     environment:
@@ -10,23 +10,31 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
-      - "3306:3306"
+      - "3306:3306"  # Expose MySQL port for external access if needed
     volumes:
-      - db_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql  # Persist MySQL data
+    networks:
+      - my-network
 
-  app:
-    image: your-node-app-image
-    container_name: node_app
-    environment:
-      - NODE_ENV=production
-      - PROD_DB_USERNAME=root
-      - PROD_DB_PASSWORD=admin
-      - PROD_DB_NAME=dev_db
-      - PROD_DB_HOST=db
-    depends_on:
-      - db
+  flipkart:
+    image: flipkart:latest
+    container_name: flipkart
     ports:
       - "3000:3000"
+    environment:
+      NODE_ENV: production  # Set NODE_ENV to 'production'
+      PROD_DB_USERNAME: admin
+      PROD_DB_PASSWORD: admin
+      PROD_DB_NAME: dev_db
+      PROD_DB_HOST: mysql  # Use the service name 'mysql' as the hostname
+    depends_on:
+      - mysql  # Ensure mysql starts before flipkart
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
 
 volumes:
-  db_data:
+  mysql_data:
