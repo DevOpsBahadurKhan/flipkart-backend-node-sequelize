@@ -10,9 +10,9 @@ const dbConfig = require('./index'); // Import configuration based on NODE_ENV
       // host: dbConfig.host,
       // user: dbConfig.username,
       // password: dbConfig.password,
+      database: process.env.DB_NAME,
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
       host: process.env.DB_HOST,
       dialect: 'mysql',
     });
@@ -29,12 +29,15 @@ const dbConfig = require('./index'); // Import configuration based on NODE_ENV
 
 // Create a Sequelize instance
 const sequelize = new Sequelize(
-  dbConfig.database,
-  dbConfig.username,
-  dbConfig.password,
+  // dbConfig.database,
+  // dbConfig.username,
+  // dbConfig.password,
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
   {
-    host: dbConfig.host,
-    dialect: dbConfig.dialect
+    host: process.env.DB_HOST,
+    dialect: 'mysql',
   }
 );
 
