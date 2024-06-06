@@ -7,9 +7,14 @@ const dbConfig = require('./index'); // Import configuration based on NODE_ENV
   try {
     // Create a connection without a specific database
     const connection = await mysql.createConnection({
-      host: dbConfig.host,
-      user: dbConfig.username,
-      password: dbConfig.password,
+      // host: dbConfig.host,
+      // user: dbConfig.username,
+      // password: dbConfig.password,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      host: process.env.DB_HOST,
+      dialect: 'mysql',
     });
 
     // Create the database if it doesn't exist
