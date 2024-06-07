@@ -1,20 +1,24 @@
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
-const dbConfig = require('./index'); // Import configuration based on NODE_ENV
+require('dotenv').config(); // Load environment variables from .env file
+
+// Database configuration
+const dbConfig = {
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  dialect: 'mysql',
+};
 
 // Create and check the database if it doesn't exist
 (async () => {
   try {
     // Create a connection without a specific database
     const connection = await mysql.createConnection({
-      // host: dbConfig.host,
-      // user: dbConfig.username,
-      // password: dbConfig.password,
-      database: process.env.DB_NAME,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      host: process.env.DB_HOST,
-      dialect: 'mysql',
+      host: dbConfig.host,
+      user: dbConfig.username,
+      password: dbConfig.password,
     });
 
     // Create the database if it doesn't exist
@@ -29,15 +33,13 @@ const dbConfig = require('./index'); // Import configuration based on NODE_ENV
 
 // Create a Sequelize instance
 const sequelize = new Sequelize(
-  // dbConfig.database,
-  // dbConfig.username,
-  // dbConfig.password,
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  dbConfig.database,
+  dbConfig.username,
+  dbConfig.password,
   {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
+    host: dbConfig.host,
+    dialect: dbConfig.dialect,
+    logging: console.log, // Enable logging to see SQL queries
   }
 );
 
