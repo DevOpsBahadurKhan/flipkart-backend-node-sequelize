@@ -3,10 +3,11 @@ version: '3.8'
 services:
   mysql:
     image: mysql:latest
+    restart: unless-stopped
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: production_db
+      MYSQL_DATABASE: prod_db
       MYSQL_USER: root
       MYSQL_PASSWORD: admin
     ports:
@@ -23,10 +24,10 @@ services:
       - "3000:3000"
     environment:
       PORT: 3000  # Replace with your desired port
-      DB_NAME: ${MYSQL_DATABASE}
-      DB_USER: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_DATABASE}
-      DB_HOST: mysql
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
     depends_on:
       - mysql
     networks:
