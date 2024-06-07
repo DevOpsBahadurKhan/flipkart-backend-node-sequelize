@@ -18,6 +18,7 @@ services:
       - my-network
 
   flipkart:
+    build: .
     image: flipkart  # Use the local flipkart image
     container_name: flipkart
     ports:
