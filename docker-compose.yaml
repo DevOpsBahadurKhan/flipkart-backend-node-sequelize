@@ -23,12 +23,6 @@ services:
     container_name: flipkart
     ports:
       - "3000:3000"
-    environment:
-      PORT: 3000  # Replace with your desired port
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_HOST: ${DB_HOST}
     depends_on:
       - mysql
     networks:
