@@ -6,14 +6,37 @@ require('dotenv').config(); // Load environment variables from .env file
 const dbConfig = {
   database: process.env.DB_NAME,
   username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD, 
+  password: process.env.DB_PASSWORD,
   host: process.env.DB_HOST,
   dialect: 'mysql',
 };
 
-// Create and check the database if it doesn't exist
+// Wait for MySQL service to be ready before creating the database
+const waitForMySQL = async () => {
+  const maxRetries = 10;
+  let retries = 0;
+  while (retries < maxRetries) {
+    try {
+      const connection = await mysql.createConnection({
+        host: dbConfig.host,
+        user: dbConfig.username,
+        password: dbConfig.password,
+      });
+      await connection.end();
+      console.log("MySQL is ready.");
+      return;
+    } catch (error) {
+      retries++;
+      console.log(`Waiting for MySQL... (${retries}/${maxRetries})`);
+      await new Promise(res => setTimeout(res, 5000)); // Wait for 5 seconds before retrying
+    }
+  }
+  throw new Error("MySQL is not ready after maximum retries.");
+};
+
 (async () => {
   try {
+    await waitForMySQL();
     // Create a connection without a specific database
     const connection = await mysql.createConnection({
       host: dbConfig.host,
