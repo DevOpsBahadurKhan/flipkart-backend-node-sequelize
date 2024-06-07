@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "pm2-runtime index.js",
+    "stop": "pm2 stop index.js",
+    "restart": "pm2 restart index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],

@@ -23,6 +23,7 @@ services:
     container_name: flipkart
     ports:
       - "3000:3000"
+    restart: always
     depends_on:
       - mysql
     networks:
